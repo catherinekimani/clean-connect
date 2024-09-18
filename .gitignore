@@ -1,0 +1,62 @@
+# Django database files
+*.sqlite3
+
+# Django migrations
+*/migrations/*.pyc
+*/migrations/*.pyc~
+
+# Local Django static and media files
+/staticfiles/
+/mediafiles/
+/media/
+/static/
+
+# Ignore cache and session-related files
+*.log
+*.pot
+*.pyc
+
+# Virtual environment
+venv/
+env/
+ENV/
+VENV/
+*.env
+.env
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+*.iml
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# MacOS
+.DS_Store
+# Node modules
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.pvm
+*.whl
+# Environment variables
+.env
+
+# Local settings
+local_settings.py
+settings_local.py
