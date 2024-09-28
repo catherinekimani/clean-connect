@@ -1,8 +1,11 @@
 .login-page {
 	width: 100%;
-	max-width: 1200px;
-	text-align: center;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: relative;
+	text-align: center;
 }
 
 .top-image img {

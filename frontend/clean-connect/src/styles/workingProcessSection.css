@@ -1,0 +1,54 @@
+.working-process {
+	text-align: center;
+	padding: 60px 20px;
+	background-color: #f7f7f7;
+	position: relative;
+}
+
+.section-title {
+	font-size: 2.5rem;
+	margin-bottom: 40px;
+	color: #0e345d;
+}
+
+.process-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 30px;
+	transition: transform 0.3s;
+}
+
+.process-step {
+	background-color: #fff;
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s, box-shadow 0.3s;
+	position: relative;
+}
+
+.process-step:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.process-icon {
+	font-size: 3rem;
+	color: #0e345d;
+	margin-bottom: 20px;
+	background-color: #0e345d;
+	border-radius: 50%;
+	padding: 15px;
+	display: inline-block;
+}
+
+.process-step h3 {
+	margin-top: 20px;
+	font-size: 1.5rem;
+	color: #0e345d;
+}
+
+.process-step p {
+	color: #7f8c8d;
+	margin-top: 10px;
+}

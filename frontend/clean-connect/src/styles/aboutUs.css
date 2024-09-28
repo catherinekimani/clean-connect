@@ -1,0 +1,53 @@
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	overflow: hidden;
+}
+
+.about-hero {
+	background: url('https://img.freepik.com/free-photo/shocked-woman-with-curly-afro-hair-stares-bugged-eyes-drowned-huge-pile-colorful-clothing-cleans-out-closet-selects-clothes-donation-recycling-white_273609-52586.jpg?t=st=1727523902~exp=1727527502~hmac=1cd197d8b68f8217ceda7da3168618e6e00dc1b5ce28e531a1abf32f3bd50031&w=1380') center/cover no-repeat;
+	height: 60vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	text-align: center;
+}
+
+.hero-content {
+	padding: 20px;
+	border-radius: 10px;
+	color: #0e345d;
+	font-size: 28px;
+}
+
+.mission-vision {
+	display: flex;
+	justify-content: space-around;
+	padding: 40px 20px;
+	background-color: white;
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mission-content,
+.vision-content {
+	width: 45%;
+	text-align: center;
+}
+
+.footer {
+	width: 100%;
+	background-color: #3498db;
+	color: white;
+	text-align: center;
+	padding: 20px;
+	margin-top: auto;
+}
