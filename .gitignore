@@ -17,6 +17,7 @@
 *.pyc
 
 # Virtual environment
+virtual/
 venv/
 env/
 ENV/
