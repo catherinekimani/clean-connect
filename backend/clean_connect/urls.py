@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework.routers import DefaultRouter
-from user_management.views import UserViewSet, UserProfileViewSet
+from user_management.views import UserViewSet, UserProfileViewSet, LoginView
 from serrvice_providers.views import ServiceViewSet, ServiceRequestViewSet
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -43,6 +43,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/api/', permanent=False)), 
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/login/', LoginView.as_view(), name='login'),
     path('api-auth/', include('rest_framework.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
