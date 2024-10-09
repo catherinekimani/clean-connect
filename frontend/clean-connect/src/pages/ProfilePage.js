@@ -1,47 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/profilePage.css";
 
-const mockUserData = {
-  name: "Kevin Wepo",
-  email: "wepo@gmailcom.com",
-  phone: "+1234567890",
-  address: "123 Ngong rd, Laundry City",
-  bio: "Lover of fresh clothes and great service!",
-  profileImage:
-    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?size=626&ext=jpg&uid=R156950503&ga=GA1.1.305839536.1726218127&semt=ais_hybrid",
-  userType: "Client",
-  servicePreferences: ["Dry Cleaning", "Laundry"],
-  orderHistory: [
-    { date: "2024-09-20", items: "2 shirts, 1 dress", status: "Completed" },
-    { date: "2024-09-10", items: "5 shirts", status: "In Progress" },
-  ],
-};
-
 const ProfilePage = () => {
-  const [user, setUser] = useState(mockUserData);
+  const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const userId = localStorage.getItem("userId");
 
-  const handleEditToggle = () => {
-    setIsEditing((prev) => !prev);
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/profiles/${userId}/`,
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError(error.response?.data?.detail || "Failed to load user data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchUserData();
+    } else {
+      setError("User ID not found.");
+      setLoading(false);
+    }
+  }, [userId]);
+
+  const handleEditToggle = () => setIsEditing((prev) => !prev);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Profile updated successfully!");
-    setIsEditing(false);
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(`http://127.0.0.1:8000/api/profiles/${userId}/`, user, {
+        headers: { Authorization: `Token ${token}` },
+      });
+      alert("Profile updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError(
+        "Failed to update profile. " + (error.response?.data?.detail || "")
+      );
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>; // Improved error handling
+  }
 
   return (
     <div className="user-profile-page">
       <div className="profile-container">
         <div className="profile-header">
           <img
-            src={user.profileImage}
+            src={user.profileImage || "default-profile-image.png"}
             alt="Profile"
             className="profile-image"
           />
@@ -63,33 +95,10 @@ const ProfilePage = () => {
                 <p>
                   <strong>Phone:</strong> {user.phone}
                 </p>
-                <p>
-                  <strong>Address:</strong> {user.address}
-                </p>
               </div>
-
-              <div className="info-row">
-                <div className="info-card">
-                  <h3>Service Preferences</h3>
-                  <p>{user.servicePreferences.join(", ")}</p>
-                </div>
-
-                <div className="info-card">
-                  <h3>Bio</h3>
-                  <p>{user.bio}</p>
-                </div>
-
-                <div className="info-card">
-                  <h3>Order History</h3>
-                  <ul>
-                    {user.orderHistory.map((order, index) => (
-                      <li key={index}>
-                        <strong>{order.date}</strong>: {order.items} -{" "}
-                        <span className="status">{order.status}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="info-card">
+                <h3>Bio</h3>
+                <p>{user.bio}</p>
               </div>
             </>
           ) : (
@@ -122,16 +131,7 @@ const ProfilePage = () => {
                   value={user.phone}
                   onChange={handleChange}
                   required
-                />
-              </div>
-              <div className="form-group">
-                <label>Address:</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={user.address}
-                  onChange={handleChange}
-                  required
+                  pattern="[0-9]*"
                 />
               </div>
               <div className="form-group">

@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/loginForm.css";
 
-const LoginForm = ({ onSubmit, errorMessage }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(email, password);
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+        email,
+        password,
+      });
+
+      console.log("Login successful:", response.data);
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id);
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("username", user.username);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:", error.response.data);
+      setErrorMessage("Invalid email or password. Please try again.");
+    }
   };
 
   return (

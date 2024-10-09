@@ -1,16 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css";
-
 import HeroSection from "./HeroSection";
-
 import ServicesSection from "./ServicesSection";
-
 import WorkingProcessSection from "./WorkingProcessSection";
-
 import Footer from "./Footer";
 
 const Navbar = () => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    navigate("/login");
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -18,7 +28,7 @@ const Navbar = () => {
           <img
             src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?size=626&ext=jpg&uid=R156950503&ga=GA1.1.305839536.1726218127&semt=ais_hybrid"
             alt="DaynDry Logo"
-          />{" "}
+          />
           <h1>Clean Connect</h1>
         </div>
         <ul className="nav-links">
@@ -35,11 +45,23 @@ const Navbar = () => {
             <a href="/pickup">Laundry Pickup</a>
           </li>
         </ul>
-        <a href="/register" className="schedule-button">
-          Schedule a Service
-        </a>
+        {isLoggedIn ? (
+          <>
+            <button className="profile-button" onClick={handleProfileClick}>
+              Edit Profile
+            </button>
+            <button className="logout-button" onClick={handleLogout}>
+              Log Out
+            </button>
+          </>
+        ) : (
+          <Link to="/register" className="schedule-button">
+            Schedule a Service
+          </Link>
+        )}
+
         <div className="mobile-menu-icon">
-          <i className="fas fa-bars"></i>{" "}
+          <i className="fas fa-bars"></i>
         </div>
       </nav>
       <HeroSection />
