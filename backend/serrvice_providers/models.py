@@ -1,4 +1,4 @@
-# service_providers/models.py
+
 
 from django.db import models
 from user_management.models import CustomUser
